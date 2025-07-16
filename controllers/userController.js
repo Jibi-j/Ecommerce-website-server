@@ -13,7 +13,7 @@ const register = async (req, res, next) => {
 
         //valid input
         if (!name || !email || !password) {
-            return res.status(400).json({ error: "All fiels are mandatory" })
+            return res.status(400).json({ error: "All fields are mandatory" })
         }
 
         //check if user exists

@@ -18,13 +18,13 @@ app.use(cors({
 }));
 
 // Routes
-app.use('/api', router);
-app.use('/api/admin', require('./routes/adminRoutes'));
-app.use('/api/seller', require('./routes/sellerRoutes'));
-app.use('/api/cart', require('./routes/cartRoutes'));
-app.use('/api/review', require('./routes/reviewRoutes'));
-app.use('/api/payment', require('./routes/paymentRoutes'));
-app.use('/api/orders', require('./routes/orderRoutes'));
+//app.use('/api', router);
+app.use('/admin', require('./routes/adminRoutes'));
+app.use('/seller', require('./routes/sellerRoutes'));
+app.use('/cart', require('./routes/cartRoutes'));
+app.use('/review', require('./routes/reviewRoutes'));
+app.use('/payment', require('./routes/paymentRoutes'));
+app.use('/orders', require('./routes/orderRoutes'));
 
 app.get('/', (req, res) => {
   res.send('Hello World!');

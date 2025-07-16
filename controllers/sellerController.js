@@ -70,6 +70,7 @@ const sellerLogin = async (req, res) => {
 
     res.json({
       message: 'Login successful',
+      token,
       seller: {
         id: seller._id,
         name: seller.name,

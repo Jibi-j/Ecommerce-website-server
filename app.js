@@ -13,7 +13,7 @@ app.use(cookieParser());
 const clientUrl = process.env.CLIENT_DOMAIN;
 const clientProdUrl = process.env.PROD_CLIENT_DOMAIN
 app.use(cors({
-  origin: [clientUrl,clientProdUrl, 'https://ecommerce-website-main-client.onrender.com'],
+  origin: [clientUrl,clientProdUrl],
   credentials: true
 }));
 

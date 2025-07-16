@@ -33,9 +33,9 @@ const adminLogin = async (req, res) => {
     // Set cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "PRODCTION",
-      sameSite: "None", 
-      maxAge: 24 * 60 * 60 * 1000, 
+      secure: process.env.NODE_ENV === "production", // Render requires this
+      sameSite: "None", // Important for cross-origin cookies
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
     // Send admin details (without password)

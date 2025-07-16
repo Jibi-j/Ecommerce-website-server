@@ -3,11 +3,14 @@ const User = require('../models/userModel');
 
 const authSeller = async (req, res, next) => {
   try {
-    const token = req.cookies.token;
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(" ")[1]; // Get token from Bearer header
+
     if (!token) return res.status(401).json({ message: 'Unauthorized' });
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     const seller = await User.findById(decoded.id);
+
     if (!seller || seller.role !== 'seller') {
       return res.status(403).json({ message: 'Access denied' });
     }
@@ -18,5 +21,6 @@ const authSeller = async (req, res, next) => {
     res.status(401).json({ message: 'Invalid token' });
   }
 };
+
 
 module.exports = { authSeller };

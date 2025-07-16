@@ -2,7 +2,11 @@ const mongoose = require("mongoose");
 const Stripe = require('stripe');
 const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY);
 
-const client_domain = process.env.CLIENT_DOMAIN;
+const client_domain =
+  process.env.NODE_ENV === "production"
+    ? process.env.PROD_CLIENT_DOMAIN
+    : process.env.CLIENT_DOMAIN;
+
 
 // Create Checkout Session
 const createCheckoutSession = async (req, res) => {

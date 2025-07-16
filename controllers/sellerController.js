@@ -111,7 +111,11 @@ const updateSellerProfile = async (req, res) => {
 // logout
 const sellerLogout = async (req, res) => {
   try {
-
+    res.clearCookie("token", {
+  httpOnly: true,
+  sameSite: "None",
+  secure: true,
+});
     res.status(200).json({ success: true, message: "Seller logged out successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: "Logout failed", error: error.message });

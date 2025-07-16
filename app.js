@@ -10,10 +10,16 @@ const cookieParser = require('cookie-parser');
 app.use(express.json());
 app.use(cookieParser());
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
 const clientUrl = process.env.CLIENT_DOMAIN;
 const clientProdUrl = process.env.PROD_CLIENT_DOMAIN
 app.use(cors({
   origin: [clientUrl,clientProdUrl],
+   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   credentials: true
 }));
 

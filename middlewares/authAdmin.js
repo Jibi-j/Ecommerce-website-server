@@ -3,10 +3,7 @@ const User = require('../models/userModel');
 
 const authAdmin = async (req, res, next) => {
   try {
-    // 1. Try token from header
     let token = req.headers.authorization?.split(" ")[1];
-
-    // 2. If not in header, try cookies
     if (!token) token = req.cookies.token;
 
     if (!token) {
@@ -16,8 +13,8 @@ const authAdmin = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     const admin = await User.findById(decoded.id);
 
-    if (!admin || admin.role !== "admin") {
-      return res.status(403).json({ message: "Forbidden: Not admin" });
+    if (!admin || admin.role !== "admin" || admin.email !== "admin123@gmail.com") {
+      return res.status(403).json({ message: "Forbidden: Only specific admin allowed" });
     }
 
     req.user = admin;

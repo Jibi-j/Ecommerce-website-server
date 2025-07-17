@@ -12,33 +12,29 @@ const adminLogin = async (req, res) => {
   try {
     const admin = await User.findOne({ email });
 
-    // Check if admin exists and has 'admin' role
-    if (!admin || admin.role !== "admin") {
-      return res.status(401).json({ message: "Admin not found or unauthorized" });
+    // Strictly allow only one email
+    if (!admin || admin.role !== "admin" || admin.email !== "admin123@gmail.com") {
+      return res.status(401).json({ message: "Access denied: Not the authorized admin" });
     }
 
-    // Compare password
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid password" });
     }
 
-    // Generate token
     const token = jwt.sign(
       { id: admin._id, role: admin.role },
       process.env.JWT_SECRET_KEY,
       { expiresIn: "1d" }
     );
 
-    // Set cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Render requires this
-      sameSite: "None", // Important for cross-origin cookies
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "None",
+      maxAge: 24 * 60 * 60 * 1000,
     });
 
-    // Send admin details (without password)
     const { password: _, ...adminData } = admin.toObject();
 
     res.status(200).json({
